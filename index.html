@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protocolul FTP Avansat</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Protocolul de rețea FTP (File Transfer Protocol)</h1>
+            <nav>
+                <ul>
+                    <li><a href="#introducere">Introducere</a></li>
+                    <li><a href="#evolutie">Istoric și evoluție</a></li>
+                    <li><a href="#principiu">Principiul de funcționare</a></li>
+                    <li><a href="#moduri">Moduri de transfer</a></li>
+                    <li><a href="#aplicatii">Aplicații FTP</a></li>
+                    <li><a href="#utilizari">Utilizări</a></li>
+                    <li><a href="#securitate">Securitate</a></li>
+                    <li><a href="#avantaje">Avantaje/Dezavantaje</a></li>
+                    <li><a href="#exemple">Exemple reale</a></li>
+                    <li><a href="#concluzii">Concluzii</a></li>
+                </ul>
+            </nav>
+            <button id="toggleMode">🌙 Mod Noapte</button>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <!-- 1. Introducere -->
+        <section id="introducere">
+            <h2>1. Introducere</h2>
+            <p>
+                FTP (File Transfer Protocol) este un protocol standard de rețea utilizat pentru transferul de fișiere între două calculatoare conectate la o rețea TCP/IP, cum ar fi Internetul. 
+                Este unul dintre cele mai vechi protocoale de transfer de fișiere, fiind esențial pentru administrarea serverelor, distribuția de software și partajarea de fișiere mari.
+            </p>
+            <p>FTP permite:</p>
+            <ul>
+                <li>Descărcarea (download) fișierelor de pe un server.</li>
+                <li>Încărcarea (upload) fișierelor pe un server.</li>
+                <li>Navigarea și gestionarea directoarelor de pe server.</li>
+                <li>Autentificarea utilizatorilor și controlul accesului la fișiere.</li>
+            </ul>
+            <p><strong>Caracteristici principale:</strong></p>
+            <ul>
+                <li>Funcționează pe baza arhitecturii client-server.</li>
+                <li>Folosește TCP/IP pentru transport fiabil.</li>
+                <li>Suportă fișiere de orice tip și dimensiune.</li>
+                <li>Permite transferuri interactive sau automate prin scripturi.</li>
+            </ul>
+        </section>
+
+        <!-- 2. Istoricul și evoluția FTP -->
+        <section id="evolutie">
+            <h2>2. Istoricul și evoluția FTP</h2>
+            <h3>2.1 Primele etape</h3>
+            <ul>
+                <li>1971 – Apare primul protocol experimental de transfer de fișiere pe ARPANET, predecesor al FTP.</li>
+                <li>1980 – RFC 765 standardizează FTP-ul inițial, definind comenzile de bază.</li>
+            </ul>
+            <h3>2.2 Standardizarea modernă</h3>
+            <ul>
+                <li>1985 – RFC 959 definește standardul actual al FTP: comenzi, răspunsuri, arhitectură client-server și transfer de date.</li>
+                <li>Se introduce clar conceptul de conexiune de control și conexiune de date.</li>
+            </ul>
+            <h3>2.3 Evoluții ulterioare</h3>
+            <ul>
+                <li>Anii 1990 – apar variante securizate:
+                    <ul>
+                        <li>FTPS (FTP Secure) – FTP cu criptare SSL/TLS.</li>
+                        <li>SFTP (SSH File Transfer Protocol) – protocol diferit, folosește SSH, dar servește același scop.</li>
+                    </ul>
+                </li>
+                <li>Prezent – FTP este încă folosit pentru administrarea serverelor și transferuri mari de fișiere, deși mediile securizate preferă FTPS sau SFTP.</li>
+            </ul>
+            <p><em>Observație: SFTP nu este FTP securizat, ci un protocol complet diferit, dar cu aceleași funcționalități.</em></p>
+        </section>
+
+        <!-- 3. Arhitectura și principiul de funcționare -->
+        <section id="principiu">
+            <h2>3. Arhitectura FTP și principiul de funcționare</h2>
+            <p>FTP funcționează prin două canale de comunicare, separate:</p>
+            <h3>3.1 Conexiunea de control</h3>
+            <ul>
+                <li>Port standard: TCP 21</li>
+                <li>Transportă comenzile și răspunsurile între client și server</li>
+                <li>Exemple de comenzi:
+                    <ul>
+                        <li>USER &lt;username&gt; – autentificare utilizator</li>
+                        <li>PASS &lt;password&gt; – transmiterea parolei</li>
+                        <li>LIST – listarea fișierelor și directoarelor</li>
+                        <li>RETR &lt;filename&gt; – descărcarea unui fișier</li>
+                        <li>STOR &lt;filename&gt; – încărcarea unui fișier</li>
+                        <li>DELE &lt;filename&gt; – ștergerea unui fișier</li>
+                    </ul>
+                </li>
+            </ul>
+            <h3>3.2 Conexiunea de date</h3>
+            <ul>
+                <li>Port standard: TCP 20 sau port negociat dinamic</li>
+                <li>Folosită pentru transferul efectiv al fișierelor</li>
+                <li>Modul de inițiere depinde de tipul de transfer: Active Mode sau Passive Mode</li>
+            </ul>
+        </section>
+
+        <!-- 4. Moduri de transfer -->
+        <section id="moduri">
+            <h2>4. Moduri de transfer</h2>
+            <h3>4.1 Active Mode</h3>
+            <p>
+                Clientul inițiază conexiunea de control către portul 21 al serverului.
+                Serverul inițiază conexiunea de date către client.
+                Necesită ca firewall-ul clientului să permită conexiuni inbound pe porturile de date.
+            </p>
+            <h3>4.2 Passive Mode</h3>
+            <p>
+                Clientul inițiază atât conexiunea de control, cât și cea de date.
+                Folosit când clientul se află în spatele unui firewall sau NAT.
+                Serverul deschide un port dinamic pentru transferul de date, iar clientul se conectează la acesta.
+            </p>
+            <h3>4.3 Alte tipuri de transfer</h3>
+            <ul>
+                <li>ASCII – pentru fișiere text</li>
+                <li>Binary (octet) – pentru fișiere binare, imagini, arhive</li>
+                <li>Stream mode, Block mode, Compressed mode – pentru optimizare în rețele lente sau complexe</li>
+            </ul>
+        </section>
+
+        <!-- 5. Aplicații FTP -->
+        <section id="aplicatii">
+            <h2>5. Aplicații FTP</h2>
+            <div class="cards">
+                <div class="card">
+                    <h3>5.1 FTP Client</h3>
+                    <ul>
+                        <li>FileZilla Client – multi-platformă, gratuit, foarte popular</li>
+                        <li>WinSCP – FTP/SFTP pentru Windows</li>
+                        <li>Cyberduck – client FTP/SFTP pentru macOS și Windows</li>
+                        <li>Linia de comandă – ftp, lftp, ncftp (Linux/Unix)</li>
+                    </ul>
+                    <p>Funcționalități principale: conectare, navigare, transfer, sincronizare și automatizare.</p>
+                </div>
+                <div class="card">
+                    <h3>5.2 FTP Server</h3>
+                    <ul>
+                        <li>FileZilla Server – gratuit, configurabil, suport Windows</li>
+                        <li>vsftpd – Linux, securizat și performant</li>
+                        <li>ProFTPD – Linux/Unix, flexibil, module suplimentare</li>
+                        <li>Microsoft IIS FTP Server – integrat în Windows Server</li>
+                    </ul>
+                    <p>Funcționalități principale: control acces, limitare conexiuni, jurnalizare, securizare TLS/SSL.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. Utilizări -->
+        <section id="utilizari">
+            <h2>6. Utilizări FTP</h2>
+            <ul>
+                <li>Publicarea site-urilor web – încărcarea fișierelor HTML, CSS, JS</li>
+                <li>Transferul fișierelor mari – backup-uri, distribuția de software sau baze de date</li>
+                <li>Partajarea fișierelor între organizații – trimiterea rapidă între filiale sau parteneri</li>
+                <li>Administrarea serverelor – acces direct la fișiere pentru mentenanță și configurare</li>
+                <li>Servicii cloud private – unele companii folosesc FTP pentru acces rapid la fișiere interne</li>
+            </ul>
+        </section>
+
+        <!-- 7. Securitate -->
+        <section id="securitate">
+            <h2>7. Securitate FTP</h2>
+            <h3>7.1 Probleme de securitate</h3>
+            <ul>
+                <li>FTP clasic trimite parole și date necriptate – vulnerabil la atacuri de tip „man-in-the-middle”</li>
+                <li>Poate fi blocat sau restricționat de firewall-uri</li>
+            </ul>
+            <h3>7.2 Soluții de securitate</h3>
+            <ul>
+                <li>FTPS – criptează conexiunea cu TLS/SSL</li>
+                <li>SFTP – criptare completă folosind SSH</li>
+                <li>Autentificare avansată – utilizatori, grupuri, parole complexe</li>
+                <li>Limitarea accesului IP – restricții pe adresă IP și rate limiting</li>
+                <li>Audit și jurnalizare – monitorizarea activității pentru detectarea abuzurilor</li>
+            </ul>
+        </section>
+
+        <!-- 8. Avantaje și dezavantaje -->
+        <section id="avantaje">
+            <h2>8. Avantaje și dezavantaje</h2>
+            <h3>Avantaje</h3>
+            <ul>
+                <li>Transfer rapid și stabil de fișiere mari</li>
+                <li>Compatibilitate extinsă cu majoritatea sistemelor de operare</li>
+                <li>Organizarea fișierelor în directoare și controlul permisiunilor</li>
+                <li>Automatizare prin scripturi și comenzi batch</li>
+            </ul>
+            <h3>Dezavantaje</h3>
+            <ul>
+                <li>FTP clasic nu criptează datele – risc major de securitate</li>
+                <li>Configurarea firewall-urilor și NAT poate fi dificilă</li>
+                <li>Înlocuit în medii securizate de FTPS și SFTP</li>
+                <li>Necesită cunoștințe de rețea pentru optimizare și securizare</li>
+            </ul>
+        </section>
+
+        <!-- 9. Exemple reale de utilizare -->
+        <section id="exemple">
+            <h2>9. Exemple reale de utilizare</h2>
+            <ul>
+                <li>Distribuție software – Linux ISO-uri, drivere și patch-uri prin FTP</li>
+                <li>Backup de fișiere mari – transfer baze de date între filiale</li>
+                <li>Hosting web – upload fișiere către servere de hosting</li>
+                <li>Servicii educaționale și cercetare – transfer fișiere mari între instituții</li>
+            </ul>
+        </section>
+
+        <!-- 10. Concluzii -->
+        <section id="concluzii">
+            <h2>10. Concluzii</h2>
+            <p>
+                FTP rămâne un protocol esențial pentru transferul de fișiere, cu o arhitectură simplă și eficientă. 
+                Evoluțiile sale au dus la variante securizate precum FTPS și SFTP, care permit utilizarea sa în medii sigure. 
+                Înțelegerea principiilor de funcționare, a modurilor de transfer și a aplicațiilor client-server este crucială pentru administrarea fișierelor în rețele moderne.
+            </p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Protocol FTP. Toate drepturile rezervate.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

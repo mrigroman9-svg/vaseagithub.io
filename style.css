@@ -1,0 +1,25 @@
+/* Reset și stil general */
+* { margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', sans-serif; }
+body { background:#f4f4f9; color:#333; line-height:1.6; transition:0.5s; }
+header { background:#004080; color:#fff; padding:20px 0; text-align:center; }
+header h1 { margin-bottom:10px; }
+nav ul { list-style:none; display:flex; justify-content:center; gap:20px; margin-bottom:10px; flex-wrap:wrap; }
+nav ul li a { color:#fff; text-decoration:none; font-weight:bold; transition:0.3s; }
+nav ul li a:hover { color:#ffcc00; }
+button#toggleMode { background:#0066cc; border:none; color:#fff; padding:8px 15px; cursor:pointer; border-radius:5px; }
+button#toggleMode:hover { background:#0052a3; }
+.container { width:90%; max-width:1000px; margin:auto; }
+main { margin:20px auto; padding:20px; }
+section { margin-bottom:50px; }
+h2 { margin-bottom:15px; color:#004080; }
+ul { margin-left:20px; margin-top:10px; }
+.cards { display:flex; flex-wrap:wrap; gap:20px; margin-top:10px; }
+.card { flex:1 1 200px; background:#e6f0ff; padding:20px; border-radius:10px; box-shadow:0 5px 15px rgba(0,0,0,0.1); transition:0.3s; }
+.card:hover { transform:translateY(-5px); background:#cce0ff; }
+footer { text-align:center; padding:15px; background:#004080; color:#fff; margin-top:20px; }
+
+/* Mod Noapte */
+.dark-mode { background:#1c1c1c; color:#f1f1f1; }
+.dark-mode header, .dark-mode footer { background:#001f3f; }
+.dark-mode .card { background:#2c2c2c; }
+.dark-mode .card:hover { background:#3a3a3a; }
